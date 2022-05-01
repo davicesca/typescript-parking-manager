@@ -10,6 +10,22 @@
     <script defer src="./assets/ts/script.js"></script>
 </head>
 <body>
-    
+    <form>
+        <input type="text" id="model" placeholder="Enter vehicle model">
+        <input type="text" id="license-plate" placeholder="Enter license plate">
+        <button type="submit" id="register">Register</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Model</td>
+                <td>License Plate</td>
+                <td>Registration Date</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody id="parking-yard"></tbody>
+    </table>
 </body>
 </html>
