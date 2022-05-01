@@ -11,21 +11,25 @@
 </head>
 <body>
     <form>
-        <input type="text" id="model" placeholder="Enter vehicle model">
-        <input type="text" id="license-plate" placeholder="Enter license plate">
-        <button type="submit" id="register">Register</button>
+        <input type="text" id="model" class="form-field" placeholder="Enter vehicle model" required autocomplete="off">
+        <input type="text" id="license-plate" class="form-field" placeholder="Enter license plate" required autocomplete="off">
+        <input type="text" id="owner" class="form-field" placeholder="Enter vehicle owner" required autocomplete="off">
+        <button type="submit" id="register" class="form-btn">Register</button>
     </form>
 
-    <table>
-        <thead>
-            <tr>
-                <td>Model</td>
-                <td>License Plate</td>
-                <td>Registration Date</td>
-                <td>Actions</td>
-            </tr>
-        </thead>
-        <tbody id="parking-yard"></tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <td>Model</td>
+                    <td>License Plate</td>
+                    <td>Owner</td>
+                    <td>Registration Date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody id="parking-yard"></tbody>
+        </table>
+    </div>
 </body>
 </html>
