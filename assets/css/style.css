@@ -19,6 +19,10 @@ form, .table-container {
     align-items: center;
 }
 
+.table-container {
+    align-items: flex-start;
+}
+
 input:focus {
     outline: 0;
 }
@@ -63,4 +67,17 @@ tr td {
 thead tr td {
     text-transform: uppercase;
     font-weight: bold;
+}
+
+.delete-btn {
+    width: 2em;
+    height: 2em;
+    background-color: #fafafa;
+    color: #8e8e8e;
+    border: 1px solid #dbdbdb;
+    border-radius: 50%;
+}
+
+.delete-btn:active {
+    border-color: #a8a8a8;   
 }
