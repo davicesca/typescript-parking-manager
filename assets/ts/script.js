@@ -1,7 +1,15 @@
 // Data
 const $ = (query) => document.querySelector(query);
+const parkingLotTable = $('#parking-lot');
+const defaultValue = `
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+`;
 // Event Listeners and function calls
-parkingYard().render();
+parkingLot().render();
 $('#register').addEventListener('click', (event) => {
     event.preventDefault();
     const model = $('#model').value;
@@ -14,13 +22,13 @@ $('#register').addEventListener('click', (event) => {
     $('#model').value = '';
     $('#license-plate').value = '';
     $('#owner').value = '';
-    parkingYard().addVehicle({ model, licensePlate, owner, date: new Date().toLocaleString() }, true);
+    parkingLot().addVehicle({ model, licensePlate, owner, date: new Date().toLocaleString() }, true);
 });
 // Functions
 function calcPayment(minutes) {
     return 0.25 * minutes;
 }
-function parkingYard() {
+function parkingLot() {
     function getData() {
         return localStorage.getItem('vehicles') ? JSON.parse(localStorage.getItem('vehicles')) : [];
     }
@@ -28,6 +36,8 @@ function parkingYard() {
         localStorage.setItem('vehicles', JSON.stringify(vehicles));
     }
     function addVehicle(vehicle, willSave) {
+        if (parkingLotTable.innerHTML !== '' && !getData().length)
+            parkingLotTable.innerHTML = '';
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${vehicle.model}</td>
@@ -41,10 +51,10 @@ function parkingYard() {
         });
         if (willSave)
             saveData([...getData(), vehicle]);
-        $('#parking-yard').appendChild(row);
+        parkingLotTable.appendChild(row);
     }
     function removeVehicle(plate) {
-        const { model, licensePlate, date } = getData().find(vehicle => vehicle.licensePlate === plate);
+        const { licensePlate, date } = getData().find(vehicle => vehicle.licensePlate === plate);
         const time = (new Date().getMinutes() - new Date(date).getMinutes());
         if (!confirm(`The customer was in the parking lot for ${time} minutes, and he needs to pay $${calcPayment(time)}.\nClick ok to confirm the end of the service.`))
             return;
@@ -52,10 +62,13 @@ function parkingYard() {
         render();
     }
     function render() {
-        $('#parking-yard').innerHTML = '';
         const vehicles = getData();
         if (vehicles.length) {
+            parkingLotTable.innerHTML = '';
             vehicles.forEach(vehicle => addVehicle(vehicle));
+        }
+        else {
+            parkingLotTable.innerHTML = defaultValue;
         }
     }
     return { getData, saveData, addVehicle, removeVehicle, render };

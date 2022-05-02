@@ -1,5 +1,13 @@
 // Data
 const $ = (query: string): HTMLInputElement => document.querySelector(query);
+const parkingLotTable = $('#parking-lot');
+const defaultValue = `
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+    <td>Empty</td>
+`;
 
 interface Vehicle {
     model: string;
@@ -9,7 +17,7 @@ interface Vehicle {
 }
 
 // Event Listeners and function calls
-parkingYard().render();
+parkingLot().render();
 
 $('#register').addEventListener('click', (event) => {
     event.preventDefault();
@@ -26,7 +34,7 @@ $('#register').addEventListener('click', (event) => {
     $('#license-plate').value = '';
     $('#owner').value = '';
 
-    parkingYard().addVehicle({model, licensePlate, owner, date: new Date().toLocaleString()}, true);
+    parkingLot().addVehicle({model, licensePlate, owner, date: new Date().toLocaleString()}, true);
 });
 
 // Functions
@@ -34,17 +42,18 @@ function calcPayment(minutes: number): number {
     return 0.25 * minutes;
 }
 
-function parkingYard() {
+function parkingLot() {
 
     function getData(): Vehicle[] {
         return localStorage.getItem('vehicles') ? JSON.parse(localStorage.getItem('vehicles')) : [];
-        }
+    }
 
     function saveData(vehicles: Vehicle[]) {
         localStorage.setItem('vehicles', JSON.stringify(vehicles));
     }
 
     function addVehicle(vehicle: Vehicle, willSave?: boolean) {
+        if(parkingLotTable.innerHTML !== '' && !getData().length) parkingLotTable.innerHTML = '';
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${vehicle.model}</td>
@@ -59,11 +68,11 @@ function parkingYard() {
         });
 
         if (willSave) saveData([...getData(), vehicle]);
-        $('#parking-yard').appendChild(row);
+        parkingLotTable.appendChild(row);
     }
 
     function removeVehicle(plate: string) {
-        const {model, licensePlate, date} = getData().find(vehicle => vehicle.licensePlate === plate);
+        const {licensePlate, date} = getData().find(vehicle => vehicle.licensePlate === plate);
 
         const time = (new Date().getMinutes() - new Date(date).getMinutes());
         
@@ -74,11 +83,13 @@ function parkingYard() {
     }
 
     function render() {
-        $('#parking-yard').innerHTML = '';
         const vehicles = getData();
 
         if(vehicles.length) {
+            parkingLotTable.innerHTML = '';
             vehicles.forEach(vehicle => addVehicle(vehicle));
+        } else {
+            parkingLotTable.innerHTML = defaultValue;
         }
     }
 
