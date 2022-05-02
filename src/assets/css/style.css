@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
     font-size: 14px;
 }
 
@@ -12,11 +15,17 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-form, .table-container {
+header, form, .table-container {
     min-height: 15em;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+header {
+    min-height: 10rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
 }
 
 .table-container {
